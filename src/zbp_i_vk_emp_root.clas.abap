@@ -1,0 +1,5 @@
+.CLASS zbp_i_vk_emp_root DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF zi_vk_emp_root.
+ENDCLASS.
+
+CLASS zbp_i_vk_emp_root IMPLEMENTATION.
+ENDCLASS.

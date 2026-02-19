@@ -1,0 +1,4 @@
+@EndUserText.label: 'Service Definition for emp'
+define service ZUI_EMP_SD {
+  expose ZC_vk_emp;
+}

@@ -1,0 +1,202 @@
+@Metadata.layer: #CORE
+
+@UI.headerInfo: {
+  typeName: 'Employee',
+  typeNamePlural: 'Employees',
+  imageUrl: 'CompanyLogo',
+
+  title: {
+    value: 'EmpName'
+  }
+
+  //description: {
+  //  value: 'EmployeeId'
+ // }
+}
+
+annotate view ZC_vk_emp with
+{
+
+
+  //========================================================
+  // SEARCH ENABLEMENT
+  //========================================================
+
+  //  @Search.searchable: true
+  //  EmpName;
+  //
+  ////  @Search.defaultSearchElement: true
+  ////  EmpName;
+
+
+  //========================================================
+  // FACETS (OBJECT PAGE SECTIONS)
+  //========================================================
+
+  @UI.facet: [
+
+    {
+      id: 'GeneralInfo',
+      label: 'General Information',
+      purpose: #STANDARD,
+      //type: #LINEITEM_REFERENCE,
+     type: #IDENTIFICATION_REFERENCE,
+      position: 10
+    } ,
+
+
+    {
+      id: 'AmountInfo',
+      label: 'Salary Information',
+      purpose: #STANDARD,
+     type: #FIELDGROUP_REFERENCE,
+      targetQualifier: 'SalaryInfo',
+
+      position: 20
+    },
+
+    {
+      id: 'AdminInfo',
+      label: 'Administrative Information',
+      purpose: #STANDARD,
+      type: #IDENTIFICATION_REFERENCE,
+      targetQualifier: 'Admin',
+      position: 30
+    }
+
+  ]
+
+
+  //========================================================
+  // LIST REPORT COLUMNS
+  //========================================================
+
+
+//    @UI.lineItem: [{
+//      position: 10,
+//      importance: #HIGH,
+//       type: #FOR_ACTION,
+//      dataAction: 'approveEmployee'
+//    }]
+  //@UI.selectionField: [{ position: 10 }]
+  @UI.identification: [
+//        { position: 61, label: 'Approve' 
+//       
+//        },
+    {
+      position: 90,
+      type: #FOR_ACTION,
+      dataAction: 'approveEmployee',
+      label: 'Approve',
+      importance: #HIGH
+    }
+  ]
+  Approve;
+  @UI.lineItem: [{
+    position: 10,
+    importance: #HIGH
+  }]
+  @UI.selectionField: [{ position: 10 }]
+  @UI.hidden: true
+    @UI.identification: [
+      { position: 10, label: 'Employee ID' },
+      {
+        position: 100,
+        type: #FOR_ACTION,
+        dataAction: 'rejectEmployee',
+        label: 'Reject',
+        importance: #HIGH
+      }
+    ]
+  EmployeeId;
+
+  @UI.lineItem: [{
+    position: 20,
+    importance: #HIGH
+  }]
+  @UI.selectionField: [{ position: 20 }]
+  @UI.identification: [{ position: 20, label: 'Employee Name' }]
+  EmpName;
+
+
+  @UI.lineItem: [{
+    position: 30
+  }]
+  @UI.selectionField: [{ position: 30 }]
+  @UI.identification: [{ position: 30, label: 'Age' }]
+  Age;
+
+
+  @UI.lineItem: [{
+    position: 40
+  }]
+  @UI.selectionField: [{ position: 40 }]
+  @UI.identification: [{ position: 40, label: 'Department' }]
+  DepartmentId;
+
+  @UI.selectionField: [{ position: 50 }]
+  @UI.lineItem: [{
+    position: 50,
+    criticality: 'StatusCriticality'
+  }]
+  @UI.identification: [{ position: 50, label: 'Status' }]
+  Status;
+
+
+  //========================================================
+  // SALARY FIELD GROUP
+  //========================================================
+
+  @UI.fieldGroup: [{
+    qualifier: 'SalaryInfo',
+    position: 10,
+    label: 'Salary'
+  }]
+  @UI.lineItem: [{
+    position: 60,
+    importance: #HIGH
+  }]
+  Salary;
+
+
+  @UI.fieldGroup: [{
+    qualifier: 'SalaryInfo',
+    position: 20,
+    label: 'Currency'
+  }]
+  Currency;
+
+
+  //========================================================
+  // ADMIN FIELDS
+  //========================================================
+
+  @UI.identification: [{
+    qualifier: 'Admin',
+    position: 10,
+    label: 'Created At'
+  }]
+  created_at;
+
+
+  @UI.identification: [{
+    qualifier: 'Admin',
+    position: 20,
+    label: 'Last Changed At'
+  }]
+  last_changed_at;
+
+
+  // ||========================================================||
+  // ||                  ASSOCIATION DISPLAY
+  // ||========================================================||
+
+  @UI.lineItem: [{
+    position: 70
+  }]
+  _Dept;
+
+
+
+
+}

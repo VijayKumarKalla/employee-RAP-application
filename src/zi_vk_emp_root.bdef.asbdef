@@ -1,0 +1,70 @@
+managed implementation in class zbp_i_vk_emp_root unique;
+strict ( 2 );
+with draft;
+
+define behavior for ZI_VK_EMP_ROOT //alias <alias_name>
+persistent table zvk_emp
+draft table zdt_emptb
+lock master total etag last_changed_at
+authorization master ( instance )
+etag master last_changed_at
+{
+  create ( authorization : global );
+  update;
+  delete;
+
+
+  draft action Edit;
+  draft action Resume;
+  draft action Activate optimized;
+  draft action Discard;
+  draft determine action Prepare;
+
+  determination setInitialStatus
+  on modify { create; }
+
+  validation checkAge
+  on save { create; update; }
+
+  validation checkSalary
+  on save { create; update; }
+
+
+  action approveEmployee
+   ;
+action rejectEmployee;
+// result [1] $self;
+  side effects
+  {
+
+    //  action approveEmployee
+    //    affects field Status;
+
+    action approveEmployee
+    affects  $self ;
+
+    action rejectEmployee
+    affects  $self;
+
+  }
+
+
+
+  field ( numbering : managed, readonly ) EMPLOYEEID;
+  field ( readonly ) created_at, last_changed_at;
+
+  mapping for zvk_emp
+    {
+      EMPLOYEEID      = EMPLOYEE_ID;
+      EmpName         = Emp_Name;
+      DepartmentId    = dept_id;
+      age             = Age;
+      salary          = Salary;
+      status          = Status;
+      currency        = Currency;
+      created_at      = created_at;
+      last_changed_at = last_changed_at;
+    }
+
+
+}
