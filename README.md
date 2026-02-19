@@ -1,6 +1,6 @@
+## 📌 Overview
 # RAP Employee Management Application (ABAP RAP - Managed Scenario)
 
-## 📌 Overview
 This project is a complete end-to-end SAP RAP (RESTful ABAP Programming Model) application developed in the ABAP Cloud (BTP Trial Environment).
 
 The application demonstrates a full enterprise-grade RAP architecture including:
@@ -16,6 +16,71 @@ The application demonstrates a full enterprise-grade RAP architecture including:
 
 ---
 
+## 📸 Screenshots
+
+### 🖥️ List Report Page (Employee Overview)
+  Shows all employees with key details including Status, Department, and Salary.
+<img width="1894" height="829" alt="image" src="https://github.com/user-attachments/assets/39d4bcba-e0b8-4d46-bf05-b13a04952c24" />
+
+### 📝 Draft Creation Screen
+Demonstrates draft-enabled employee creation with Save, Activate, and Discard option
+
+<img width="1836" height="763" alt="image" src="https://github.com/user-attachments/assets/d381dedf-f743-48b7-8da1-7a20145b8ecf" />
+
+### ✅ Approve / Reject Action
+Custom RAP actions with dynamic enable/disable based on employee status.
+
+<img width="1878" height="767" alt="image" src="https://github.com/user-attachments/assets/f2113786-ab98-420e-87d5-157a5fa84493" />
+
+
+## 🔄 Application Flow Diagram (RAP Managed + Draft)
+
+```text
+👤 User (Fiori UI)
+        │
+        ▼
+🖥️ Fiori Elements App (List Report / Object Page)
+        │
+        ▼
+🌐 OData V4 Service Binding
+        │
+        ▼
+📡 Service Definition (ZUI_*)
+        │
+        ▼
+📦 Projection View (ZC_VK_EMP)
+        │  (UI Annotations + Exposure)
+        ▼
+🧠 Interface View (ZI_VK_EMP_ROOT)
+        │  (Composition, Associations, Semantics)
+        ▼
+⚙️ Behavior Definition (BDEF - Managed + Draft)
+        │
+        ├── 📝 Create / Update / Delete (Auto Managed)
+        ├── 🟢 Actions (Approve / Reject)
+        ├── 🔍 Validations (Age, Salary)
+        ├── 🔄 Determinations (Initial Status = NEW)
+        └── 🔐 Instance Authorization (Button Enable/Disable)
+        │
+        ▼
+🧩 Behavior Implementation Class (Handler)
+        │
+        ├── 🚀 approveEmployee( )
+        ├── ❌ rejectEmployee( )
+        ├── 🧠 setInitialStatus( )
+        ├── 🔍 checkAge( )
+        └── 💰 checkSalary( )
+        │
+        ▼
+📚 RAP Transaction Buffer (EML - LOCAL MODE)
+        │
+        ▼
+💾 Database Tables
+        ├── 🧾 ZVK_EMP (Employee)
+        ├── 🏢 YTAB_DEPT (Department)
+        └── 📝 Draft Table (ZDT_EMPTB)
+  ```
+---
 ## 🏗️ Architecture
 ### RAP Model Used:
 - Managed RAP
@@ -78,7 +143,6 @@ The application demonstrates a full enterprise-grade RAP architecture including:
 
 ### 6️⃣ Value Helps (Search Helps)
 - Department Dropdown (CDS Value Help)
-- Status Value Help (Code List based)
 
 ### 7️⃣ UI Enhancements
 - Fiori Elements List Report & Object Page
@@ -107,4 +171,4 @@ The application demonstrates a full enterprise-grade RAP architecture including:
 ```abap
 managed implementation in class zbp_i_vk_emp_root unique;
 strict ( 2 );
-n
+with draft;
