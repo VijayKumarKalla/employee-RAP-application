@@ -18,9 +18,9 @@ CLASS lhc_ZI_VK_EMP_ROOT DEFINITION INHERITING FROM cl_abap_behavior_handler.
       IMPORTING keys FOR zi_vk_emp_root~checksalary.
 
     METHODS approveemployee FOR MODIFY
-      IMPORTING keys FOR ACTION zi_vk_emp_root~approveemployee." RESULT result.
+      IMPORTING keys FOR ACTION zi_vk_emp_root~approveemployee RESULT result.
     METHODS rejectemployee FOR MODIFY
-      IMPORTING keys FOR ACTION zi_vk_emp_root~rejectemployee . "RESULT result.
+      IMPORTING keys FOR ACTION zi_vk_emp_root~rejectemployee RESULT result.
 
 ENDCLASS.
 
@@ -224,8 +224,19 @@ ENDLOOP.
       IN LOCAL MODE
       ENTITY zi_vk_emp_root
       UPDATE FIELDS ( Status )
-      WITH lt_update.
+      WITH lt_update
+      FAILED DATA(ls_failed).
 
+" Step 4:  RETURN UPDATED INSTANCES (FOR IMMEDIATE REFRESH)
+  IF ls_failed IS INITIAL.
+    result = VALUE #(
+      FOR ls_emp IN lt_read
+      (
+        %tky   = ls_emp-%tky
+        %param = ls_emp
+      )
+    ).
+  ENDIF.
 
 
   ENDMETHOD.
@@ -260,7 +271,18 @@ ENDLOOP.
       IN LOCAL MODE
       ENTITY zi_vk_emp_root
       UPDATE FIELDS ( Status )
-      WITH lt_update.
+      WITH lt_update  ."FAILED DATA(ls_failed).
+
+" Step 4:  RETURN UPDATED INSTANCES (FOR IMMEDIATE REFRESH)
+ "IF ls_failed IS INITIAL.
+    result = VALUE #(
+      FOR ls_emp IN lt_read
+      (
+        %tky   = ls_emp-%tky
+        %param = ls_emp
+      )
+    ).
+     "ENDIF.
 
   ENDMETHOD.
 

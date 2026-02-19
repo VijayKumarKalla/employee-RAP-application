@@ -31,9 +31,10 @@ etag master last_changed_at
 
 
   action approveEmployee
-   ;
-action rejectEmployee;
-// result [1] $self;
+   result [1] $self;
+
+action rejectEmployee
+ result [1] $self;
   side effects
   {
 
